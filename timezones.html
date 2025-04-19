@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Time Zone Clock</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #clock {
+      font-size: 4rem;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #00ffcc;
+      color: #111;
+      border: none;
+      padding: 10px 15px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+    }
+
+    button:hover {
+      background-color: #00ddb3;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="clock">00:00:00</div>
+
+  <div class="buttons">
+    <button onclick="setTimeZone('local')">Honnavar(My Home)</button>
+    <button onclick="setTimeZone('America/New_York')">New York</button>
+    <button onclick="setTimeZone('Europe/London')">London</button>
+    <button onclick="setTimeZone('Asia/Tokyo')">Tokyo</button>
+  </div>
+
+  <script>
+    let selectedTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', {
+        hour12: false,
+        timeZone: selectedTimeZone,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      document.getElementById('clock').textContent = time;
+    }
+
+    function setTimeZone(timeZone) {
+      selectedTimeZone = timeZone === 'local'
+        ? Intl.DateTimeFormat().resolvedOptions().timeZone
+        : timeZone;
+      updateClock();
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial call
+  </script>
+
+</body>
+</html>
